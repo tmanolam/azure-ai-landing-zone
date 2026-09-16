@@ -5,7 +5,7 @@
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
 
-        <mxCell id="title" value="Management Group Design for AI Landing Zone — extends existing SCBx soft-isolation hierarchy" style="text;html=1;fontSize=18;fontStyle=1;fontColor=#21295C;align=left;" vertex="1" parent="1">
+        <mxCell id="title" value="Management Group Design for AI Landing Zone — extends existing tenant soft-isolation hierarchy" style="text;html=1;fontSize=18;fontStyle=1;fontColor=#21295C;align=left;" vertex="1" parent="1">
           <mxGeometry x="40" y="20" width="1100" height="30" as="geometry" />
         </mxCell>
 
@@ -13,14 +13,14 @@
           <mxGeometry x="1140" y="70" width="220" height="110" as="geometry" />
         </mxCell>
 
-        <mxCell id="root-scbx" value="&lt;b&gt;SCBx&lt;/b&gt;&lt;br&gt;Tenant Root (Entra ID)&lt;br&gt;&lt;i&gt;custom policy definitions + ai-lz-guardrails initiative defined here&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#21295C;strokeColor=none;fontColor=#FFFFFF;fontSize=12;arcSize=10;" vertex="1" parent="1">
+        <mxCell id="root-tenant" value="&lt;b&gt;Tenant Root&lt;/b&gt;&lt;br&gt;Entra ID&lt;br&gt;&lt;i&gt;custom policy definitions + ai-lz-guardrails initiative defined here&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#21295C;strokeColor=none;fontColor=#FFFFFF;fontSize=12;arcSize=10;" vertex="1" parent="1">
           <mxGeometry x="480" y="70" width="360" height="70" as="geometry" />
         </mxCell>
 
         <mxCell id="mg-platform" value="&lt;b&gt;Platform&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAEDF1;strokeColor=#9AA4B2;fontColor=#3A3F47;fontSize=12;arcSize=8;" vertex="1" parent="1">
           <mxGeometry x="80" y="200" width="200" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="e-plat" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9AA4B2;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="root-scbx" target="mg-platform"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-plat" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9AA4B2;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="root-tenant" target="mg-platform"><mxGeometry relative="1" as="geometry" /></mxCell>
 
         <mxCell id="mg-mgmt" value="Management · Connectivity · Identity · Security&lt;br&gt;&lt;i&gt;(existing platform MGs + subscriptions — unchanged)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F7F9;strokeColor=#C4CDD6;fontColor=#5E6673;fontSize=11;arcSize=8;" vertex="1" parent="1">
           <mxGeometry x="50" y="270" width="260" height="55" as="geometry" />
@@ -40,7 +40,7 @@
         <mxCell id="mg-nonfin" value="&lt;b&gt;NonFinancial&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAEDF1;strokeColor=#9AA4B2;fontColor=#3A3F47;fontSize=12;arcSize=8;" vertex="1" parent="1">
           <mxGeometry x="560" y="200" width="200" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="e-nonfin" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9AA4B2;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="root-scbx" target="mg-nonfin"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-nonfin" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9AA4B2;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="root-tenant" target="mg-nonfin"><mxGeometry relative="1" as="geometry" /></mxCell>
 
         <mxCell id="mg-subsidiary" value="&lt;b&gt;Subsidiary&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAEDF1;strokeColor=#9AA4B2;fontColor=#3A3F47;fontSize=12;arcSize=8;" vertex="1" parent="1">
           <mxGeometry x="560" y="275" width="200" height="40" as="geometry" />
@@ -85,7 +85,7 @@
         <mxCell id="mg-sandbox" value="&lt;b&gt;Sandbox&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAEDF1;strokeColor=#9AA4B2;fontColor=#3A3F47;fontSize=12;arcSize=8;" vertex="1" parent="1">
           <mxGeometry x="1120" y="200" width="180" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="e-sandbox" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9AA4B2;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="root-scbx" target="mg-sandbox"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-sandbox" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9AA4B2;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="root-tenant" target="mg-sandbox"><mxGeometry relative="1" as="geometry" /></mxCell>
 
         <mxCell id="sub-sandbox-exist" value="🔑 Subsidiary-A · 🔑 Subsidiary-B&lt;br&gt;&lt;i&gt;existing — unchanged&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F7F9;strokeColor=#C4CDD6;fontColor=#5E6673;fontSize=11;arcSize=8;" vertex="1" parent="1">
           <mxGeometry x="1105" y="270" width="210" height="50" as="geometry" />
@@ -100,7 +100,7 @@
         <mxCell id="mg-decomm" value="&lt;b&gt;Decommissioned&lt;/b&gt;&lt;br&gt;&lt;i&gt;unchanged&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F7F9;strokeColor=#C4CDD6;fontColor=#5E6673;fontSize=11;arcSize=8;" vertex="1" parent="1">
           <mxGeometry x="920" y="195" width="150" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="e-decomm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9AA4B2;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="root-scbx" target="mg-decomm"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-decomm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9AA4B2;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="root-tenant" target="mg-decomm"><mxGeometry relative="1" as="geometry" /></mxCell>
 
         <mxCell id="note1" value="&lt;b&gt;Design rationale&lt;/b&gt;&lt;br&gt;1. AI = workload archetype MG → strict ai-lz-guardrails inherit cleanly without touching existing Production/NonProduction workloads&lt;br&gt;2. AI MG scope = one boundary for RBAC delegation to AI team · Defender for AI plans · Cost Management view (feeds Appendix A break-even trigger)&lt;br&gt;3. Phase 2 Governance Hub is a shared platform service → AI-Platform sits beside Connectivity/Identity under Platform; nothing created until triggers fire&lt;br&gt;4. Subscription strategy: Phase 1 = AI-Production + AI-NonProduction with RG-per-project; at scale = subscription vending per project, mapping 1:1 to Citadel Access Contracts&lt;br&gt;5. Multi-subsidiary: pattern repeats (Subsidiary-N &gt; AI); definitions stay at tenant root, assignments per AI MG" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D5E2EB;fontColor=#3A3F47;fontSize=11;align=left;verticalAlign=top;spacing=10;arcSize=8;" vertex="1" parent="1">
           <mxGeometry x="80" y="640" width="1235" height="130" as="geometry" />
