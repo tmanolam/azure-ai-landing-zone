@@ -1,0 +1,111 @@
+<mxfile host="app.diagrams.net" modified="2026-09-16T00:00:00.000Z" agent="Claude" version="24.0.0" type="device">
+  <diagram id="ai-management-groups" name="AI Management Group Design">
+    <mxGraphModel dx="1500" dy="950" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="Management Group Design for AI Landing Zone — extends existing SCBx soft-isolation hierarchy" style="text;html=1;fontSize=18;fontStyle=1;fontColor=#21295C;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1100" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legend" value="&lt;b&gt;Legend&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#5E6673&quot;&gt;■ Existing (unchanged)&lt;/font&gt;&lt;br&gt;&lt;font color=&quot;#065A82&quot;&gt;■ NEW — Phase 1&lt;/font&gt;&lt;br&gt;&lt;font color=&quot;#B7791F&quot;&gt;▨ NEW — Phase 2 (deferred)&lt;/font&gt;&lt;br&gt;🔑 = Subscription" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D5E2EB;fontColor=#21295C;fontSize=11;align=left;verticalAlign=top;spacing=8;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="1140" y="70" width="220" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="root-scbx" value="&lt;b&gt;SCBx&lt;/b&gt;&lt;br&gt;Tenant Root (Entra ID)&lt;br&gt;&lt;i&gt;custom policy definitions + ai-lz-guardrails initiative defined here&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#21295C;strokeColor=none;fontColor=#FFFFFF;fontSize=12;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="480" y="70" width="360" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mg-platform" value="&lt;b&gt;Platform&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAEDF1;strokeColor=#9AA4B2;fontColor=#3A3F47;fontSize=12;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="80" y="200" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e-plat" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9AA4B2;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="root-scbx" target="mg-platform"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="mg-mgmt" value="Management · Connectivity · Identity · Security&lt;br&gt;&lt;i&gt;(existing platform MGs + subscriptions — unchanged)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F7F9;strokeColor=#C4CDD6;fontColor=#5E6673;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="50" y="270" width="260" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="e-mgmt" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9AA4B2;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="mg-platform" target="mg-mgmt"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="mg-aiplatform" value="&lt;b&gt;AI-Platform&lt;/b&gt;  ★ PHASE 2&lt;br&gt;&lt;i&gt;created only when Section 14 triggers are met&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCF3E3;strokeColor=#B7791F;strokeWidth=2;dashed=1;fontColor=#8A5A12;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="50" y="355" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="e-aiplat" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#B7791F;strokeWidth=1.5;dashed=1;endArrow=classic;" edge="1" parent="1" source="mg-platform" target="mg-aiplatform"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="sub-hub" value="🔑 &lt;b&gt;AI-Governance-Hub&lt;/b&gt;&lt;br&gt;Citadel dedicated spoke: APIM AI Gateway,&lt;br&gt;API Center, Event Hub → Cosmos usage pipeline&lt;br&gt;&lt;i&gt;shared platform service — like Connectivity/Identity&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFDF5;strokeColor=#B7791F;dashed=1;fontColor=#8A5A12;fontSize=10.5;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="60" y="435" width="250" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e-hub" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#B7791F;strokeWidth=1.5;dashed=1;endArrow=classic;" edge="1" parent="1" source="mg-aiplatform" target="sub-hub"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="mg-nonfin" value="&lt;b&gt;NonFinancial&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAEDF1;strokeColor=#9AA4B2;fontColor=#3A3F47;fontSize=12;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="560" y="200" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e-nonfin" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9AA4B2;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="root-scbx" target="mg-nonfin"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="mg-subsidiary" value="&lt;b&gt;Subsidiary&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAEDF1;strokeColor=#9AA4B2;fontColor=#3A3F47;fontSize=12;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="560" y="275" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e-subsid" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9AA4B2;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="mg-nonfin" target="mg-subsidiary"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="mg-prod-exist" value="Production 🔑&lt;br&gt;&lt;i&gt;existing — untouched&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F7F9;strokeColor=#C4CDD6;fontColor=#5E6673;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="400" y="360" width="150" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="e-prodex" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9AA4B2;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="mg-subsidiary" target="mg-prod-exist"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="mg-nonprod-exist" value="NonProduction 🔑&lt;br&gt;&lt;i&gt;existing — untouched&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F7F9;strokeColor=#C4CDD6;fontColor=#5E6673;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="575" y="360" width="150" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="e-nonprodex" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9AA4B2;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="mg-subsidiary" target="mg-nonprod-exist"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="mg-ai" value="&lt;b&gt;AI&lt;/b&gt;  ★ NEW — AI archetype MG&lt;br&gt;&lt;i&gt;ai-lz-guardrails initiative + inherit-tags assigned here&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F7;strokeColor=#065A82;strokeWidth=2;fontColor=#065A82;fontSize=11.5;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="750" y="355" width="290" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="e-ai" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#065A82;strokeWidth=2;endArrow=classic;" edge="1" parent="1" source="mg-subsidiary" target="mg-ai"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="mg-ai-prod" value="&lt;b&gt;Production&lt;/b&gt;&lt;br&gt;initiative effect: &lt;b&gt;Deny&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F7;strokeColor=#065A82;fontColor=#065A82;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="750" y="450" width="135" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="e-aiprod" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#065A82;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="mg-ai" target="mg-ai-prod"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="sub-ai-prod" value="🔑 &lt;b&gt;AI-Production&lt;/b&gt;&lt;br&gt;one RG + spoke VNet per project&lt;br&gt;&lt;i&gt;(Design Rule 3)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1C7293;fontColor=#21295C;fontSize=10.5;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="740" y="530" width="155" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="e-subaiprod" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#065A82;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="mg-ai-prod" target="sub-ai-prod"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="mg-ai-nonprod" value="&lt;b&gt;NonProduction&lt;/b&gt;&lt;br&gt;effect: Audit → Deny" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F7;strokeColor=#065A82;fontColor=#065A82;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="915" y="450" width="135" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="e-ainonprod" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#065A82;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="mg-ai" target="mg-ai-nonprod"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="sub-ai-nonprod" value="🔑 &lt;b&gt;AI-NonProduction&lt;/b&gt;&lt;br&gt;dev / staging per project" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1C7293;fontColor=#21295C;fontSize=10.5;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="910" y="530" width="155" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="e-subainonprod" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#065A82;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="mg-ai-nonprod" target="sub-ai-nonprod"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="mg-sandbox" value="&lt;b&gt;Sandbox&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAEDF1;strokeColor=#9AA4B2;fontColor=#3A3F47;fontSize=12;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="200" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e-sandbox" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9AA4B2;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="root-scbx" target="mg-sandbox"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="sub-sandbox-exist" value="🔑 Subsidiary-A · 🔑 Subsidiary-B&lt;br&gt;&lt;i&gt;existing — unchanged&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F7F9;strokeColor=#C4CDD6;fontColor=#5E6673;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="1105" y="270" width="210" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="e-sbex" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9AA4B2;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="mg-sandbox" target="sub-sandbox-exist"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="sub-ai-sandbox" value="🔑 &lt;b&gt;AI-Sandbox&lt;/b&gt;  ★ OPTIONAL&lt;br&gt;experimentation — guardrails in&lt;br&gt;&lt;b&gt;Audit&lt;/b&gt; mode + budget cap" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F7;strokeColor=#065A82;fontColor=#065A82;fontSize=10.5;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="1105" y="350" width="210" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="e-aisb" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#065A82;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="mg-sandbox" target="sub-ai-sandbox"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="mg-decomm" value="&lt;b&gt;Decommissioned&lt;/b&gt;&lt;br&gt;&lt;i&gt;unchanged&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F7F9;strokeColor=#C4CDD6;fontColor=#5E6673;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="920" y="195" width="150" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="e-decomm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9AA4B2;strokeWidth=1.5;endArrow=classic;" edge="1" parent="1" source="root-scbx" target="mg-decomm"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="note1" value="&lt;b&gt;Design rationale&lt;/b&gt;&lt;br&gt;1. AI = workload archetype MG → strict ai-lz-guardrails inherit cleanly without touching existing Production/NonProduction workloads&lt;br&gt;2. AI MG scope = one boundary for RBAC delegation to AI team · Defender for AI plans · Cost Management view (feeds Appendix A break-even trigger)&lt;br&gt;3. Phase 2 Governance Hub is a shared platform service → AI-Platform sits beside Connectivity/Identity under Platform; nothing created until triggers fire&lt;br&gt;4. Subscription strategy: Phase 1 = AI-Production + AI-NonProduction with RG-per-project; at scale = subscription vending per project, mapping 1:1 to Citadel Access Contracts&lt;br&gt;5. Multi-subsidiary: pattern repeats (Subsidiary-N &gt; AI); definitions stay at tenant root, assignments per AI MG" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D5E2EB;fontColor=#3A3F47;fontSize=11;align=left;verticalAlign=top;spacing=10;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="80" y="640" width="1235" height="130" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

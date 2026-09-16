@@ -645,3 +645,55 @@ Phase 1 มี incremental platform cost เพียง **~$70–100/เดื�
 ## A.5 Suggested Statement
 
 > "By starting with the Lightweight Landing Zone, we avoid approximately **$3,100/month (~$37,000/year)** in fixed platform costs for a production-grade private Governance Hub (APIM Premium + usage pipeline) — or at minimum ~$1,000/month even in the leanest configuration — until AI adoption reaches the scale that justifies it. This also defines our Phase 2 cost trigger: when monthly AI spend approaches the hub's fixed cost, centralized governance and chargeback become worth the investment."
+
+---
+
+# Appendix B — Management Group Design for AI
+
+Diagram: [`docs/diagrams/ai-management-groups.drawio`](diagrams/ai-management-groups.drawio) — extends the current SCBx management group hierarchy (`docs/diagrams/current-management-group.png`, "Soft Isolation" model).
+
+## B.1 Target Hierarchy
+
+```text
+SCBx (Tenant Root)
+├── Platform                              (unchanged in Phase 1)
+│   ├── Management
+│   ├── Connectivity
+│   ├── Identity
+│   ├── Security
+│   └── AI-Platform                       ★ PHASE 2 ONLY — created when triggers (§14) are met
+│       └── 🔑 AI-Governance-Hub           (Citadel dedicated spoke: APIM, API Center,
+│                                          usage pipeline — shared platform service)
+├── NonFinancial
+│   └── Subsidiary
+│       ├── Production                    (existing workloads — untouched)
+│       ├── NonProduction                 (existing workloads — untouched)
+│       └── AI                            ★ NEW — AI archetype MG
+│           ├── Production
+│           │   └── 🔑 AI-Production       (one RG + spoke VNet per project)
+│           └── NonProduction
+│               └── 🔑 AI-NonProduction    (dev/staging per project)
+├── Sandbox
+│   ├── 🔑 Subsidiary-A / Subsidiary-B     (existing)
+│   └── 🔑 AI-Sandbox                      ★ OPTIONAL — experimentation, audit-mode policies
+└── Decommissioned                        (unchanged)
+```
+
+## B.2 Design Rationale
+
+1. **`AI` เป็น workload archetype MG แยกจาก `Production`/`NonProduction` เดิม** — เพราะ `ai-lz-guardrails` initiative (deny public network access, disable local auth, mandatory tags, allowed locations — ดู `governance/`) เข้มงวดกว่า policy ที่ workloads เดิมใช้อยู่ การ assign ที่ scope `AI` MG ทำให้ inherit ลงทุก resource ได้สะอาด โดยไม่ต้องแก้หรือขอ exemption ให้ workloads เดิม
+2. **`AI` MG scope ใช้เป็น boundary เดียวสำหรับ**: RBAC delegation ให้ AI program team, การเปิด Defender for AI plans เฉพาะจุดที่ต้องการ, และ Cost Management view รวมของ AI spend ทั้งหมด — ซึ่งป้อนตรงเข้า cost trigger ใน Appendix A
+3. **`AI-Platform` (Phase 2) อยู่ใต้ `Platform` ไม่ใช่ใต้ `AI`** — เพราะ Citadel Governance Hub เป็น shared platform service ที่ให้บริการหลาย BU เหมือน Connectivity และ Identity หลักการ ALZ คือ platform team ดูแล platform MG, workload team ดูแล workload MG จึงไม่สร้างอะไรใต้ `AI-Platform` จนกว่า trigger ใน Section 14 จะถึง
+4. **Subscription strategy**: Phase 1 ใช้ 2 subscriptions (`AI-Production`, `AI-NonProduction`) โดยหนึ่ง resource group + spoke VNet ต่อหนึ่ง project (Design Rule 3, Section 9) เมื่อ scale ขึ้นสู่ Phase 2 เปลี่ยนเป็น subscription-vending หนึ่ง subscription ต่อหนึ่ง project ใต้ `AI` MG ซึ่ง map 1:1 กับ Citadel Access Contract
+5. **Multi-subsidiary**: ถ้า subsidiary อื่นเริ่มใช้ AI ในอนาคต pattern นี้ทำซ้ำได้ (`Subsidiary-N > AI`) โดย custom policy definitions ยังคง define ที่ tenant root ครั้งเดียว แล้ว assign initiative ที่ `AI` MG ของแต่ละ subsidiary
+
+## B.3 Policy Assignment Map
+
+| Scope | Assignment | Effect |
+|---|---|---|
+| SCBx (หรือ NonFinancial) | *Define* custom policy definitions + `ai-lz-guardrails` initiative ที่นี่ | — (definitions only, reusable) |
+| `AI` MG | `ai-lz-guardrails` initiative + inherit-tags (×5 tags) | Deny (Production), Audit→Deny (NonProduction ระหว่าง brownfield rollout) |
+| `AI-Sandbox` subscription | Same initiative | Audit only + budget cap |
+| `AI-Platform` MG (Phase 2) | Guardrails variant สำหรับ hub (private APIM enforced) | Deny |
+
+ดูขั้นตอน deploy ที่ `governance/README.md` — `management-group` scope ใน `az policy definition/set-definition/assignment create` ให้ชี้ไปที่ `AI` MG ตาม hierarchy นี้แทน placeholder เดิม
