@@ -1,0 +1,156 @@
+<mxfile host="app.diagrams.net" modified="2026-09-16T00:00:00.000Z" agent="Claude" version="24.0.0" type="device">
+  <diagram id="phase1-lightweight" name="Phase 1 - Lightweight AI LZ">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="p1-title" value="Phase 1 — Lightweight AI Landing Zone (existing Azure Landing Zone: vWAN hub/spoke)" style="text;html=1;fontSize=18;fontStyle=1;fontColor=#21295C;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="900" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1-onprem" value="On-premises / Branches / Internet" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#EAF2F7;strokeColor=#1C7293;fontColor=#21295C;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="60" y="90" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1-hub" value="&lt;b&gt;Azure vWAN Hub&lt;/b&gt;&lt;br&gt;Azure Firewall (routing intent, DNS proxy)&lt;br&gt;&lt;i&gt;FQDN egress rules for approved AI endpoints&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#21295C;strokeColor=none;fontColor=#FFFFFF;fontSize=12;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="420" y="80" width="330" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1-e-onprem" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#1C7293;strokeWidth=2;startArrow=classic;endArrow=classic;" edge="1" parent="1" source="p1-onprem" target="p1-hub">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1-otherspokes" value="Existing Workload Spokes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1C7293;strokeColor=none;fontColor=#FFFFFF;fontSize=12;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="880" y="95" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="p1-e-other" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#1C7293;strokeWidth=2;startArrow=classic;endArrow=classic;" edge="1" parent="1" source="p1-hub" target="p1-otherspokes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1-spoke" value="AI Workload Spoke — one VNet / resource group per project (AI Landing Zones brownfield pattern)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F7;strokeColor=#1C7293;strokeWidth=2;fontColor=#065A82;fontSize=13;fontStyle=1;verticalAlign=top;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="120" y="260" width="930" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="p1-e-peer" value="hub connection" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#065A82;strokeWidth=2;endArrow=classic;startArrow=classic;fontColor=#065A82;fontSize=11;" edge="1" parent="1" source="p1-hub" target="p1-spoke">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1-app" value="&lt;b&gt;AI Application / Agent&lt;/b&gt;&lt;br&gt;endpoint + credentials from&lt;br&gt;Key Vault / app configuration" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1C7293;fontColor=#21295C;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="150" y="310" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1-ai" value="&lt;b&gt;AI Services&lt;/b&gt;&lt;br&gt;Microsoft Foundry / Azure OpenAI&lt;br&gt;(built-in content filtering, TPM quotas)&lt;br&gt;Azure AI Search (RAG)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1C7293;fontColor=#21295C;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="430" y="300" width="250" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1-data" value="&lt;b&gt;Enterprise Data&lt;/b&gt;&lt;br&gt;Storage / Database" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1C7293;fontColor=#21295C;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="760" y="310" width="180" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1-kv" value="&lt;b&gt;Azure Key Vault&lt;/b&gt;&lt;br&gt;secrets, endpoint references&lt;br&gt;RBAC + rotation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1C7293;fontColor=#21295C;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="150" y="460" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1-pe" value="Private Endpoints + Private DNS zones&lt;br&gt;(privatelink.openai.azure.com · privatelink.search.windows.net · privatelink.vaultcore.azure.net · ...)&lt;br&gt;Public network access disabled · local auth (API keys) disabled" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#065A82;dashed=1;fontColor=#065A82;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="430" y="450" width="510" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1-e1" value="Managed Identity (Entra)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#065A82;strokeWidth=2;endArrow=classic;fontColor=#065A82;fontSize=11;" edge="1" parent="1" source="p1-app" target="p1-ai">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p1-e2" value="private endpoint" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#065A82;strokeWidth=2;endArrow=classic;fontColor=#065A82;fontSize=11;" edge="1" parent="1" source="p1-ai" target="p1-data">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p1-e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#065A82;strokeWidth=2;endArrow=classic;" edge="1" parent="1" source="p1-app" target="p1-kv">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1-sub" value="&lt;b&gt;Subscription / management-group level:&lt;/b&gt;   Microsoft Entra ID · Defender for Cloud (AI workloads) · Microsoft Purview · Azure Policy (AI-LZ guardrails initiative) · Central Log Analytics + Azure Monitor · Cost Management + mandatory tags" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#21295C;strokeColor=none;fontColor=#FFFFFF;fontSize=12;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="120" y="630" width="930" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1-note" value="Forward-compatible design rules: externalized endpoint/credentials · standard OpenAI-compatible API · one spoke per use case · mandatory tagging · thin LLM client abstraction · token usage logging" style="text;html=1;fontSize=11;fontStyle=2;fontColor=#065A82;align=left;" vertex="1" parent="1">
+          <mxGeometry x="120" y="720" width="930" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="phase2-citadel" name="Phase 2 - Citadel Governance Hub">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="p2-title" value="Phase 2 — Citadel Governance Hub (dedicated spoke on the vWAN hub)" style="text;html=1;fontSize=18;fontStyle=1;fontColor=#21295C;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="900" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p2-hub" value="&lt;b&gt;Azure vWAN Hub + Azure Firewall&lt;/b&gt;&lt;br&gt;routing intent — all spoke-to-spoke traffic inspected" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#21295C;strokeColor=none;fontColor=#FFFFFF;fontSize=12;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="400" y="70" width="370" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p2-gov" value="Citadel Governance Hub — dedicated spoke (central runtime control plane)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#21295C;strokeColor=none;fontColor=#E09F3E;fontSize=13;fontStyle=1;verticalAlign=top;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="110" y="210" width="950" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="p2-e-hub" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#1C7293;strokeWidth=2;endArrow=classic;startArrow=classic;" edge="1" parent="1" source="p2-hub" target="p2-gov">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p2-apim" value="&lt;b&gt;Azure API Management&lt;/b&gt;&lt;br&gt;Unified AI Gateway&lt;br&gt;authN/authZ · token limits&lt;br&gt;model routing · resiliency" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#065A82;strokeColor=none;fontColor=#FFFFFF;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="140" y="255" width="190" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="p2-apic" value="&lt;b&gt;API Center&lt;/b&gt;&lt;br&gt;AI registry (APIs, MCP tools, A2A agents)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#065A82;strokeColor=none;fontColor=#FFFFFF;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="350" y="255" width="160" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="p2-foundry" value="&lt;b&gt;Microsoft Foundry&lt;/b&gt;&lt;br&gt;control plane · platform LLMs&lt;br&gt;Content Safety · PII (Language)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#065A82;strokeColor=none;fontColor=#FFFFFF;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="530" y="255" width="200" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="p2-usage" value="&lt;b&gt;Usage Pipeline&lt;/b&gt;&lt;br&gt;Event Hub → Logic App → Cosmos DB → Power BI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#065A82;strokeColor=none;fontColor=#FFFFFF;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="750" y="255" width="180" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="p2-obs" value="&lt;b&gt;Observability&lt;/b&gt;&lt;br&gt;App Insights · Log Analytics" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#065A82;strokeColor=none;fontColor=#FFFFFF;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="140" y="380" width="190" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="p2-contracts" value="&lt;b&gt;Contract-driven operations (IaC):&lt;/b&gt;  Backend Contracts (supply: models, load balancing, aliases) · Access Contracts (demand: per BU / use case / environment) · Publish Contracts (MCP tools, A2A agents)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#E09F3E;dashed=1;fontColor=#E09F3E;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="350" y="380" width="580" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p2-spokeA" value="&lt;b&gt;AI Spoke A&lt;/b&gt;&lt;br&gt;existing Phase 1 project&lt;br&gt;&lt;i&gt;onboarded: endpoint + credential swap&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F7;strokeColor=#1C7293;fontColor=#21295C;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="150" y="540" width="240" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="p2-spokeB" value="&lt;b&gt;AI Spoke B&lt;/b&gt;&lt;br&gt;existing Phase 1 project&lt;br&gt;&lt;i&gt;onboarded: endpoint + credential swap&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F7;strokeColor=#1C7293;fontColor=#21295C;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="465" y="540" width="240" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="p2-spokeC" value="&lt;b&gt;AI Spoke C&lt;/b&gt;&lt;br&gt;new project&lt;br&gt;&lt;i&gt;AI Landing Zones (Agent Execution Plane)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F7;strokeColor=#1C7293;fontColor=#21295C;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="780" y="540" width="240" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p2-eA" value="via vWAN + firewall" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#065A82;strokeWidth=2;endArrow=classic;fontColor=#065A82;fontSize=10;" edge="1" parent="1" source="p2-spokeA" target="p2-gov">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p2-eB" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#065A82;strokeWidth=2;endArrow=classic;" edge="1" parent="1" source="p2-spokeB" target="p2-gov">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p2-eC" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#065A82;strokeWidth=2;endArrow=classic;" edge="1" parent="1" source="p2-spokeC" target="p2-gov">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p2-backends" value="&lt;b&gt;Approved Model Pool&lt;/b&gt;&lt;br&gt;Foundry / Azure OpenAI deployments · external providers (via Backend Contracts)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1C7293;strokeColor=none;fontColor=#FFFFFF;fontSize=11;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="110" y="680" width="950" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p2-eBackend" value="gateway routes only to approved backends" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#E09F3E;strokeWidth=2;endArrow=classic;fontColor=#E09F3E;fontSize=10;exitX=0.08;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="p2-gov" target="p2-backends">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="80" y="480" />
+              <mxPoint x="80" y="710" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="p2-note" value="Subscription-level Security Foundation (Layer 4) continues from Phase 1: Entra ID · Defender for AI · Purview · Azure Policy" style="text;html=1;fontSize=11;fontStyle=2;fontColor=#065A82;align=left;" vertex="1" parent="1">
+          <mxGeometry x="110" y="750" width="950" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
