@@ -23,7 +23,7 @@ Tags ต่อไปนี้ **บังคับ** บนทุก resource gr
 | `DataClassification` | ระดับชั้นความลับของข้อมูลที่ workload ประมวลผล (สอดคล้อง Purview labels) | `confidential` |
 | `Criticality` | ระดับความสำคัญต่อธุรกิจ | `mission-critical` \| `high` \| `medium` \| `low` |
 | `ManagedBy` | เครื่องมือที่ deploy resource | `bicep` \| `terraform` |
-| `Repo` | Git repository ของ IaC ที่ deploy resource | `scbx-azure-ai-landing-zone` |
+| `Repo` | Git repository ของ IaC ที่ deploy resource | `<org>/ai-landing-zone-iac` |
 
 ## 3. Rules
 
