@@ -1,0 +1,32 @@
+{
+  "properties": {
+    "displayName": "AI-LZ: Inherit mandatory tags from the resource group",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "Adds or replaces the specified tag on resources with the value from the parent resource group, so every resource carries Project/BusinessUnit/Environment/CostCenter for cost attribution. Assign once per tag name. Requires a managed identity with Tag Contributor for remediation.",
+    "metadata": { "category": "Tags", "version": "1.0.0" },
+    "parameters": {
+      "tagName": {
+        "type": "String",
+        "metadata": { "displayName": "Tag name", "description": "Tag to inherit from the resource group (assign this policy once per mandatory tag)" }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          { "field": "[concat('tags[', parameters('tagName'), ']')]", "notEquals": "[resourceGroup().tags[parameters('tagName')]]" },
+          { "value": "[resourceGroup().tags[parameters('tagName')]]", "notEquals": "" }
+        ]
+      },
+      "then": {
+        "effect": "modify",
+        "details": {
+          "roleDefinitionIds": [ "/providers/microsoft.authorization/roleDefinitions/4a9ae827-6dc8-4573-8ac7-8239d42aa03f" ],
+          "operations": [
+            { "operation": "addOrReplace", "field": "[concat('tags[', parameters('tagName'), ']')]", "value": "[resourceGroup().tags[parameters('tagName')]]" }
+          ]
+        }
+      }
+    }
+  }
+}

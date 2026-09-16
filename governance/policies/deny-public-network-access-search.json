@@ -1,0 +1,26 @@
+{
+  "properties": {
+    "displayName": "AI-LZ: Azure AI Search services must disable public network access",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "Denies Microsoft.Search/searchServices whose publicNetworkAccess is not disabled. RAG traffic must flow over private endpoints.",
+    "metadata": { "category": "Search", "version": "1.0.0" },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [ "Audit", "Deny", "Disabled" ],
+        "defaultValue": "Deny",
+        "metadata": { "displayName": "Effect" }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          { "field": "type", "equals": "Microsoft.Search/searchServices" },
+          { "field": "Microsoft.Search/searchServices/publicNetworkAccess", "notEquals": "disabled" }
+        ]
+      },
+      "then": { "effect": "[parameters('effect')]" }
+    }
+  }
+}

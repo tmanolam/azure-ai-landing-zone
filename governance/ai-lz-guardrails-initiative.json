@@ -1,0 +1,69 @@
+{
+  "properties": {
+    "displayName": "AI-LZ: AI Landing Zone Guardrails (Phase 1)",
+    "policyType": "Custom",
+    "description": "Initiative bundling the Phase 1 guardrails of the Lightweight AI Landing Zone: mandatory tagging, allowed regions, private-by-default network access, and Entra-only authentication. Assign at the AI landing zone management group or subscription scope. Replace <policy-definition-scope> with the management group or subscription where the custom definitions were created.",
+    "metadata": { "category": "AI Landing Zone", "version": "1.0.0" },
+    "parameters": {
+      "allowedLocations": {
+        "type": "Array",
+        "metadata": { "displayName": "Allowed locations", "strongType": "location" },
+        "defaultValue": [ "southeastasia", "eastasia" ]
+      },
+      "networkEffect": {
+        "type": "String",
+        "allowedValues": [ "Audit", "Deny", "Disabled" ],
+        "defaultValue": "Deny",
+        "metadata": { "displayName": "Effect for private-by-default policies", "description": "Use Audit first in brownfield subscriptions, then move to Deny." }
+      },
+      "authEffect": {
+        "type": "String",
+        "allowedValues": [ "Audit", "Deny", "Disabled" ],
+        "defaultValue": "Deny",
+        "metadata": { "displayName": "Effect for Entra-only auth policies" }
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "requireTagsOnResourceGroups",
+        "policyDefinitionId": "<policy-definition-scope>/providers/Microsoft.Authorization/policyDefinitions/ai-lz-require-tags-on-rg",
+        "parameters": {}
+      },
+      {
+        "policyDefinitionReferenceId": "allowedLocations",
+        "policyDefinitionId": "<policy-definition-scope>/providers/Microsoft.Authorization/policyDefinitions/ai-lz-allowed-locations",
+        "parameters": { "listOfAllowedLocations": { "value": "[parameters('allowedLocations')]" } }
+      },
+      {
+        "policyDefinitionReferenceId": "aiServicesNoPublicAccess",
+        "policyDefinitionId": "<policy-definition-scope>/providers/Microsoft.Authorization/policyDefinitions/ai-lz-deny-public-ai-services",
+        "parameters": { "effect": { "value": "[parameters('networkEffect')]" } }
+      },
+      {
+        "policyDefinitionReferenceId": "aiServicesNoLocalAuth",
+        "policyDefinitionId": "<policy-definition-scope>/providers/Microsoft.Authorization/policyDefinitions/ai-lz-disable-local-auth-ai-services",
+        "parameters": { "effect": { "value": "[parameters('authEffect')]" } }
+      },
+      {
+        "policyDefinitionReferenceId": "searchNoPublicAccess",
+        "policyDefinitionId": "<policy-definition-scope>/providers/Microsoft.Authorization/policyDefinitions/ai-lz-deny-public-search",
+        "parameters": { "effect": { "value": "[parameters('networkEffect')]" } }
+      },
+      {
+        "policyDefinitionReferenceId": "searchNoLocalAuth",
+        "policyDefinitionId": "<policy-definition-scope>/providers/Microsoft.Authorization/policyDefinitions/ai-lz-disable-local-auth-search",
+        "parameters": { "effect": { "value": "[parameters('authEffect')]" } }
+      },
+      {
+        "policyDefinitionReferenceId": "keyVaultNoPublicAccess",
+        "policyDefinitionId": "<policy-definition-scope>/providers/Microsoft.Authorization/policyDefinitions/ai-lz-deny-public-keyvault",
+        "parameters": { "effect": { "value": "[parameters('networkEffect')]" } }
+      },
+      {
+        "policyDefinitionReferenceId": "storageNoPublicAccess",
+        "policyDefinitionId": "<policy-definition-scope>/providers/Microsoft.Authorization/policyDefinitions/ai-lz-deny-public-storage",
+        "parameters": { "effect": { "value": "[parameters('networkEffect')]" } }
+      }
+    ]
+  }
+}

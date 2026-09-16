@@ -1,0 +1,26 @@
+{
+  "properties": {
+    "displayName": "AI-LZ: Key Vaults must disable public network access",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "Denies Microsoft.KeyVault/vaults whose publicNetworkAccess is not Disabled. Secrets access must flow over private endpoints.",
+    "metadata": { "category": "Key Vault", "version": "1.0.0" },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [ "Audit", "Deny", "Disabled" ],
+        "defaultValue": "Deny",
+        "metadata": { "displayName": "Effect" }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          { "field": "type", "equals": "Microsoft.KeyVault/vaults" },
+          { "field": "Microsoft.KeyVault/vaults/publicNetworkAccess", "notEquals": "Disabled" }
+        ]
+      },
+      "then": { "effect": "[parameters('effect')]" }
+    }
+  }
+}

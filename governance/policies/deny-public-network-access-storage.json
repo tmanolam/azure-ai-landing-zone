@@ -1,0 +1,26 @@
+{
+  "properties": {
+    "displayName": "AI-LZ: Storage accounts must disable public network access",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "Denies Microsoft.Storage/storageAccounts whose publicNetworkAccess is not Disabled. Enterprise/RAG data must be reached over private endpoints only.",
+    "metadata": { "category": "Storage", "version": "1.0.0" },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [ "Audit", "Deny", "Disabled" ],
+        "defaultValue": "Deny",
+        "metadata": { "displayName": "Effect" }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          { "field": "type", "equals": "Microsoft.Storage/storageAccounts" },
+          { "field": "Microsoft.Storage/storageAccounts/publicNetworkAccess", "notEquals": "Disabled" }
+        ]
+      },
+      "then": { "effect": "[parameters('effect')]" }
+    }
+  }
+}

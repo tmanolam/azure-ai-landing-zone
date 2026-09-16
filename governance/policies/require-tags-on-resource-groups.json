@@ -1,0 +1,32 @@
+{
+  "properties": {
+    "displayName": "AI-LZ: Require mandatory tags on resource groups",
+    "policyType": "Custom",
+    "mode": "All",
+    "description": "Denies creation of resource groups that do not carry the mandatory AI Landing Zone tags: Project, BusinessUnit, Environment, CostCenter, Owner. See TAGGING_STANDARD.md.",
+    "metadata": { "category": "Tags", "version": "1.0.0" },
+    "parameters": {
+      "requiredTags": {
+        "type": "Array",
+        "metadata": { "displayName": "Required tag names", "description": "Tags that must exist on every resource group in AI subscriptions" },
+        "defaultValue": [ "Project", "BusinessUnit", "Environment", "CostCenter", "Owner" ]
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          { "field": "type", "equals": "Microsoft.Resources/subscriptions/resourceGroups" },
+          {
+            "count": {
+              "value": "[parameters('requiredTags')]",
+              "name": "tagName",
+              "where": { "value": "[resourceGroup().tags[current('tagName')]]", "exists": "false" }
+            },
+            "greater": 0
+          }
+        ]
+      },
+      "then": { "effect": "deny" }
+    }
+  }
+}

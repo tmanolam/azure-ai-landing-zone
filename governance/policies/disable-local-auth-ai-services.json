@@ -1,0 +1,26 @@
+{
+  "properties": {
+    "displayName": "AI-LZ: Cognitive Services / Azure OpenAI accounts must disable local authentication (API keys)",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "Denies Microsoft.CognitiveServices accounts that do not set disableLocalAuth = true. Access must use Microsoft Entra ID with Managed Identity per the Least Privilege principle.",
+    "metadata": { "category": "Cognitive Services", "version": "1.0.0" },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [ "Audit", "Deny", "Disabled" ],
+        "defaultValue": "Deny",
+        "metadata": { "displayName": "Effect" }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          { "field": "type", "equals": "Microsoft.CognitiveServices/accounts" },
+          { "field": "Microsoft.CognitiveServices/accounts/disableLocalAuth", "notEquals": true }
+        ]
+      },
+      "then": { "effect": "[parameters('effect')]" }
+    }
+  }
+}

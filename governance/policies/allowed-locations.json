@@ -1,0 +1,26 @@
+{
+  "properties": {
+    "displayName": "AI-LZ: Allowed locations for AI workload resources",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "Restricts deployment of AI landing zone resources to approved Azure regions (data residency and latency). Adjust the default list to the organization's approved regions.",
+    "metadata": { "category": "General", "version": "1.0.0" },
+    "parameters": {
+      "listOfAllowedLocations": {
+        "type": "Array",
+        "metadata": { "displayName": "Allowed locations", "strongType": "location" },
+        "defaultValue": [ "southeastasia", "eastasia" ]
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          { "field": "location", "notIn": "[parameters('listOfAllowedLocations')]" },
+          { "field": "location", "notEquals": "global" },
+          { "field": "type", "notEquals": "Microsoft.AzureActiveDirectory/b2cDirectories" }
+        ]
+      },
+      "then": { "effect": "deny" }
+    }
+  }
+}
