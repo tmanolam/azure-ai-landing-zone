@@ -650,12 +650,12 @@ Phase 1 มี incremental platform cost เพียง **~$70–100/เดื�
 
 # Appendix B — Management Group Design for AI
 
-Diagram: [`docs/diagrams/ai-management-groups.drawio`](diagrams/ai-management-groups.drawio) — extends the current SCBx management group hierarchy (`docs/diagrams/current-management-group.png`, "Soft Isolation" model).
+Diagram: [`docs/diagrams/ai-management-groups.drawio`](diagrams/ai-management-groups.drawio) — extends the current tenant management group hierarchy (`docs/diagrams/current-management-group.png`, "Soft Isolation" model).
 
 ## B.1 Target Hierarchy
 
 ```text
-SCBx (Tenant Root)
+Tenant Root
 ├── Platform                              (unchanged in Phase 1)
 │   ├── Management
 │   ├── Connectivity
@@ -691,7 +691,7 @@ SCBx (Tenant Root)
 
 | Scope | Assignment | Effect |
 |---|---|---|
-| SCBx (หรือ NonFinancial) | *Define* custom policy definitions + `ai-lz-guardrails` initiative ที่นี่ | — (definitions only, reusable) |
+| Tenant Root (หรือ NonFinancial) | *Define* custom policy definitions + `ai-lz-guardrails` initiative ที่นี่ | — (definitions only, reusable) |
 | `AI` MG | `ai-lz-guardrails` initiative + inherit-tags (×5 tags) | Deny (Production), Audit→Deny (NonProduction ระหว่าง brownfield rollout) |
 | `AI-Sandbox` subscription | Same initiative | Audit only + budget cap |
 | `AI-Platform` MG (Phase 2) | Guardrails variant สำหรับ hub (private APIM enforced) | Deny |
