@@ -332,6 +332,7 @@ AI Application ──► Private Endpoint ──► Azure AI Service
 
 - **Governance Hub standing cost**: APIM (Premium หรือ StandardV2 สำหรับ VNet integration) + Event Hub + Cosmos DB + Logic App + optional Redis — fixed monthly platform cost ที่มีนัยสำคัญ ไม่ขึ้นกับ usage
 - **Lightweight incremental cost**: private endpoints + Log Analytics ingestion เท่านั้น — จ่ายหลักคือ AI consumption ซึ่งจ่ายเท่ากันทั้งสอง architecture
+- **ตัวเลขประมาณการ**: การเริ่มด้วย Phase 1 หลีกเลี่ยง fixed platform cost ประมาณ **~$3,100/เดือน (~$37,000/ปี)** สำหรับ production-grade private hub — ดูรายละเอียดใน **Appendix A**
 
 ### Conclusion
 
@@ -470,7 +471,7 @@ Defender / Purview (L4)         Defender / Purview (L4) — continues
 ## Cost
 
 - ต้องการ chargeback / showback ระดับ use case
-- AI spend ต่อเดือนเริ่มมีนัยสำคัญเมื่อเทียบกับ Governance Hub standing cost (break-even indicator)
+- AI spend ต่อเดือนเริ่มมีนัยสำคัญเมื่อเทียบกับ Governance Hub standing cost (break-even indicator — ดู Appendix A: ~$3,100/เดือน)
 
 ## AI Ecosystem
 
@@ -600,3 +601,47 @@ Citadel Governance Hub
 ### Key Rationale
 
 > **Avoid premature platform cost and complexity while preserving a configuration-level (not redesign-level) path to enterprise-scale AI governance.**
+
+---
+
+# Appendix A — Phase 2 Fixed Platform Cost Estimate
+
+> **Headline: การเริ่มด้วย Phase 1 (Lightweight) หลีกเลี่ยง fixed platform cost ประมาณ ~$3,100/เดือน (~$37,000/ปี) สำหรับ production-grade private Governance Hub — หรืออย่างน้อย ~$1,000/เดือน แม้ใน configuration ที่ lean ที่สุด**
+
+Fixed cost ของ Governance Hub ถูกกำหนดโดย APIM tier เป็นหลัก ซึ่งขึ้นกับระดับ private connectivity ที่ต้องการ จึงประมาณการเป็น 2 scenarios:
+
+## A.1 Scenarios
+
+| Scenario | APIM Tier | Inbound Connectivity | เหมาะกับ |
+|---|---|---|---|
+| **A — Lean hub** | Standard v2 (~$700/เดือน, รวม 50M requests) | Public endpoint (ป้องกันด้วย Entra/key) + outbound VNet integration | องค์กรที่ยอมรับ public inbound ได้ |
+| **B — Enterprise private hub** | Premium / Premium v2 (~$2,795–2,801/เดือน) | Full VNet injection / inbound Private Link — no public IP | องค์กรที่ต้องการ network segmentation เต็มรูปแบบ (แนวทางที่คาดว่าจะใช้จริง) |
+
+## A.2 Monthly Fixed Cost Breakdown (USD, list price)
+
+| Component | Lean (A) | Enterprise (B) | หมายเหตุ |
+|---|---:|---:|---|
+| APIM (Unified AI Gateway) | $700 | $2,800 | 1 unit; Premium 99.99% SLA ต้องการ ≥1 unit ใน ≥2 availability zones — ถ้าต้อง 2 units จะเป็น ~$5,600 |
+| Logic App Standard (usage ingestion) | $175 | $175 | WS1 plan ~$143–185/เดือน |
+| Cosmos DB (usage analytics store) | $50 | $75 | Autoscale เริ่มบิลที่ 400 RU/s หรือ 10% ของ max; สมมติ max 1,000–4,000 RU/s |
+| Event Hub Standard (1–2 TU) | $22 | $44 | ~$0.03/TU/ชั่วโมง ≈ $22/TU/เดือน |
+| App Insights + Log Analytics | $40 | $60 | ~10–25 GB/เดือน gateway telemetry ที่ ~$2.30/GB |
+| Private endpoints + storage (~5–6) | $40 | $45 | ~$7.30/endpoint/เดือน + Logic App storage |
+| **รวม fixed / เดือน** | **~$1,030** | **~$3,200** | |
+| **รวม fixed / ปี** | **~$12,400** | **~$38,400** | |
+
+## A.3 Phase 1 Incremental Cost (เปรียบเทียบ)
+
+Phase 1 มี incremental platform cost เพียง **~$70–100/เดือน** (private endpoints 4–6 จุด + Log Analytics ingestion) — **AI token consumption จ่ายเท่ากันทั้งสอง architecture จึงตัดออกจากการเปรียบเทียบ**
+
+## A.4 Caveats
+
+1. ตัวเลขเป็น **US East list prices** — Southeast Asia สูงกว่าประมาณ 5–10%; ตรวจสอบด้วย Azure Pricing Calculator สำหรับ region จริงก่อน budget approval
+2. **ไม่รวม**: optional Azure Managed Redis (semantic cache), APIM unit ที่ 2 สำหรับ 99.99% SLA (ดัน APIM เป็น ~$5,600/เดือน), และ multi-region deployment
+3. **ไม่รวม operational cost**: Phase 2 ต้องมี platform team ดูแล gateway policies, contracts, usage pipeline — เป็นต้นทุนคนที่มีนัยสำคัญแต่วัดเป็นตัวเลขได้ยาก
+4. ตัวเลขนี้ยังใช้เป็น **cost trigger สำหรับ Section 14**: เมื่อ AI spend ต่อเดือนเข้าใกล้ fixed cost ของ hub (~$3,100) การลงทุน centralized governance + chargeback เริ่มคุ้มค่า
+5. ราคา ณ กันยายน 2026 — review ใหม่เมื่อถึงเวลาตัดสินใจ Phase 2
+
+## A.5 Suggested Statement
+
+> "By starting with the Lightweight Landing Zone, we avoid approximately **$3,100/month (~$37,000/year)** in fixed platform costs for a production-grade private Governance Hub (APIM Premium + usage pipeline) — or at minimum ~$1,000/month even in the leanest configuration — until AI adoption reaches the scale that justifies it. This also defines our Phase 2 cost trigger: when monthly AI spend approaches the hub's fixed cost, centralized governance and chargeback become worth the investment."
